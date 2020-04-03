@@ -82,6 +82,11 @@ if __name__ == '__main__':
 
     cv2.namedWindow('Single-Threaded Detection', cv2.WINDOW_NORMAL)
 
+    left = 0
+    right = 0
+    top = 0
+    bottom = 0
+    arr = []
     while True:
         # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
         # Expande as dimensões , pois o modelo espera que as imagens tenham formato:[1,none,none,3]
@@ -95,7 +100,7 @@ if __name__ == '__main__':
         # Actual detection. Variable boxes contains the bounding box cordinates for hands detected,
         # while scores contains the confidence for each of these boxes.
         # Hint: If len(boxes) > 1 , you may assume you have found atleast one hand (within your score threshold)
-        
+
         # Detecção Real. As caixas variáveis contém a caixa delimitadora para as mãos detectadas,
         # enquanto as pontuações contém a confiança de cada uma dessas caixas.
         boxes, scores = detector_utils.detect_objects(image_np,
@@ -103,9 +108,13 @@ if __name__ == '__main__':
 
         # draw bounding boxes on frame
         # Desenha caixas delimitadoras no quadro.
-        detector_utils.draw_box_on_image(num_hands_detect, args.score_thresh,
+        arr = detector_utils.draw_box_on_image(num_hands_detect, args.score_thresh,
                                          scores, boxes, im_width, im_height,
                                          image_np)
+        try:
+            cv2.imwrite("im.jpg", image_np[arr[2]:arr[3], arr[0]:arr[1]])
+        except:
+            print()
 
         # Calculate Frames per second (FPS)
         # Calcula os quadros por segundos (FPS)
